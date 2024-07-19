@@ -172,14 +172,35 @@ function getNextSentence() {
     adjustFontSize();
 }
 
+
 function speak(text) {
-    const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=es&client=tw-ob`;
-    ttsAudio.src = url;
-    ttsAudio.play().catch(error => {
-        console.error('Error playing audio:', error);
-        alert('Sorry, there was an error playing the audio. Please try again.');
-    });
+    if (responsiveVoice) {
+        responsiveVoice.speak(text, 'Spanish Female', {
+            onend: () => {
+                console.log('Speech finished.');
+            },
+            onerror: (error) => {
+                console.error('Error playing audio:', error);
+                alert('Sorry, there was an error playing the audio. Please try again.');
+            }
+        });
+    } else {
+        alert('ResponsiveVoice is not available.');
+    }
 }
+
+// Ensure to include the ResponsiveVoice JS library in your HTML
+
+
+// function speak(text) {
+//     const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=es&client=tw-ob`;
+//     ttsAudio.src = url;
+//     ttsAudio.play().catch(error => {
+//         console.error('Error playing audio:', error);
+//         alert('Sorry, there was an error playing the audio. Please try again.');
+//     });
+// }
+// 
 
 spanishBox.addEventListener('click', () => {
     if (spanishSentence.textContent && !spanishSentence.classList.contains('hidden')) {
